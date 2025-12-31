@@ -22,7 +22,6 @@ app.post("/chat", async (req, res) => {
 
         const reply = await generateAIReply(userMessage);
         res.json({ reply });
-        
     } catch (error) {
         // console.error("Chat Error:", error.response?.status || error.message);
 
@@ -33,7 +32,7 @@ app.post("/chat", async (req, res) => {
         }
 
         res.status(500).json({
-            error: "Something went wrong. Please try again.",
+            error: "Internal Server Error",
         });
     }
 });
