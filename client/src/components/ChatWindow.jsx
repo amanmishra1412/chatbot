@@ -9,10 +9,10 @@ const ChatWindow = ({ message }) => {
     }, [message]);
 
     return (
-        <div className="w-[50%] relative h-96 bg-[#212121] rounded p-5 overflow-auto">
-            {message.map((m, i) => 
+        <div className="w-full sm:w-[90%] md:w-[70%] lg:w-[50%] h-[60vh] sm:h-[65vh] md:h-[70vh] bg-[#212121] rounded-xl p-4 overflow-y-auto">
+            {message.map((m, i) => (
                 <Message key={i} data={m} />
-            )}
+            ))}
             <div ref={messagesEndRef}></div>
         </div>
     );
