@@ -1,6 +1,6 @@
 import React from "react";
 
-const Messages = ({ data }) => {
+const Message = ({ data }) => {
     return (
         <div
             className={`flex w-full my-3 ${
@@ -14,11 +14,11 @@ const Messages = ({ data }) => {
                 } text-white`}
             >
                 <p>
-                    {data.from} : {data.msg}
+                    {data.msg}
                 </p>
             </div>
         </div>
     );
 };
 
-export default Messages;
+export default Message;

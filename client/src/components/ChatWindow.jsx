@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import Messages from "./Messages";
+import Message from "./Message";
 
 const ChatWindow = ({ message }) => {
     const messagesEndRef = useRef(null);
@@ -10,9 +10,9 @@ const ChatWindow = ({ message }) => {
 
     return (
         <div className="w-[50%] relative h-96 bg-[#212121] rounded p-5 overflow-auto">
-            {message.map((m, i) => (
-                <Messages key={i} data={m} />
-            ))}
+            {message.map((m, i) => 
+                <Message key={i} data={m} />
+            )}
             <div ref={messagesEndRef}></div>
         </div>
     );
