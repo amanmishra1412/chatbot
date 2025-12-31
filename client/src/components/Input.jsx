@@ -15,9 +15,12 @@ const Input = ({ data }) => {
         setUserData("");
 
         try {
-            const res = await axios.post("http://localhost:3000/chat", {
-                message: userData,
-            });
+            const res = await axios.post(
+                `${import.meta.env.VITE_API_URL}/chat`,
+                {
+                    message: userData,
+                }
+            );
             // console.log(res);
             setMessage((prev) => [
                 ...prev,
