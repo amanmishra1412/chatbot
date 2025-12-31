@@ -13,11 +13,20 @@ app.get("/", (req, res) => {
 });
 
 app.post("/chat", async (req, res) => {
-    const userMessage = req.body.message;
+    try {
+        const userMessage = req.body.message;
 
-    const reply = await generateAIReply(userMessage);
+        if (!userMessage) {
+            return res.status(400).json({ error: "Message is required" });
+        }
 
-    res.json({ reply: reply });
+        const reply = await generateAIReply(userMessage);
+        res.json({ reply });
+
+    } catch (error) {
+        console.error("Chat Error:", error.message);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
 });
 
 app.listen(3000);
