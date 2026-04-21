@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useChat } from "../context/ChatContext";
 
-const Input = ({ data }) => {
-    const { message, setMessage } = data;
+const Input = () => {
+    const { message, setMessage, loading, setLoading } = useChat();
+
     const [userData, setUserData] = useState("");
-    const [loading, setLoading] = useState(false);
+    const inputRef = useRef(null);
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -20,13 +22,15 @@ const Input = ({ data }) => {
         try {
             const res = await axios.post(
                 `${import.meta.env.VITE_API_URL}/chat`,
-                { message: userData }
+                { message: userData },
             );
 
             setMessage((prev) => [
                 ...prev,
                 { from: "Bot", msg: res.data.reply },
             ]);
+
+            inputRef.current?.focus();
         } catch (err) {
             // console.error(err);
 
@@ -48,26 +52,37 @@ const Input = ({ data }) => {
         }
     };
 
+    useEffect(() => {
+        if (!loading) {
+            inputRef.current?.focus();
+        }
+    }, [loading]);
+
     return (
         <form
             onSubmit={submitHandler}
-            className="fixed bottom-4 w-[95%] sm:w-[90%] md:w-[70%] lg:w-[50%] h-12 bg-gray-700 rounded-full px-4 flex items-center gap-3"
+            className="w-full max-w-4xl mt-3 sticky bottom-0"
         >
-            <input
-                type="text"
-                value={userData}
-                onChange={(e) => setUserData(e.target.value)}
-                placeholder="Type your message..."
-                className="w-full bg-transparent outline-none text-sm sm:text-base"
-                disabled={loading}
-            />
+            <div className="flex items-center bg-white/5 backdrop-blur-lg border border-white/10 rounded-full px-4 py-2 shadow-lg">
+                <input
+                    ref={inputRef}
+                    type="text"
+                    value={userData}
+                    onChange={(e) => setUserData(e.target.value)}
+                    placeholder="Ask anything..."
+                    className="flex-1 bg-transparent outline-none text-sm sm:text-base text-white placeholder-gray-400"
+                    disabled={loading}
+                />
 
-            <button
-                disabled={loading}
-                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex justify-center items-center border border-white shrink-0 disabled:opacity-50"
-            >
-                <i className="ri-send-plane-2-line text-lg"></i>
-            </button>
+                <button
+                    disabled={loading}
+                    className="ml-2 w-10 h-10 rounded-full flex items-center justify-center 
+            bg-gradient-to-r from-blue-500 to-orange-500 
+            hover:scale-105 transition shadow-md disabled:opacity-50"
+                >
+                    <i className="ri-send-plane-2-line text-lg"></i>
+                </button>
+            </div>
         </form>
     );
 };

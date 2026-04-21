@@ -1,31 +1,23 @@
-const axios = require("axios");
+const Groq = require("groq-sdk")
 
-const GEMINI_URL =
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-const generateAIReply = async (userMessage) => {
-    try {
-        const response = await axios.post(
-            `${GEMINI_URL}?key=${process.env.GEMINI_API_KEY}`,
+const main = async () => {
+    const chatCompletion = await getGroqChatCompletion();
+    // Print the completion returned by the LLM.
+    console.log(chatCompletion.choices[0]?.message?.content || "");
+}
+
+const getGroqChatCompletion = async (msg) => {
+    return groq.chat.completions.create({
+        messages: [
             {
-                contents: [
-                    {
-                        role: "user",
-                        parts: [{ text: userMessage }],
-                    },
-                ],
-            }
-        );
+                role: "user",
+                content: msg,
+            },
+        ],
+        model: "openai/gpt-oss-20b",
+    });
+}
 
-        return response.data.candidates[0].content.parts[0].text;
-    } catch (error) {
-        console.error("Gemini Error:", {
-            status: error.response?.status,
-            data: error.response?.data,
-        });
-
-        throw error;
-    }
-};
-
-module.exports = generateAIReply;
+module.exports = { main, getGroqChatCompletion }

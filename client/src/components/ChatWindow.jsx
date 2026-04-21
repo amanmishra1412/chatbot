@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import Message from "./Message";
+import { useChat } from "../context/ChatContext";
 
-const ChatWindow = ({ message }) => {
+const ChatWindow = () => {
+    const { message, loading } = useChat();
     const messagesEndRef = useRef(null);
 
     useEffect(() => {
@@ -9,10 +11,11 @@ const ChatWindow = ({ message }) => {
     }, [message]);
 
     return (
-        <div className="w-full sm:w-[90%] md:w-[70%] lg:w-[50%] h-[60vh] sm:h-[65vh] md:h-[70vh] bg-[#212121] rounded-xl p-4 overflow-y-auto">
-            {message.map((m, i) => (
-                <Message key={i} data={m} />
+        <div className="w-full max-w-4xl flex-1 min-h-[60vh] max-h-[70vh] bg-white/5 backdrop-blur-lg  border border-white/10  rounded-2xl p-3 sm:p-4  overflow-y-auto shadow-xl">
+            {message.map((msg, i) => (
+                <Message key={i} data={msg} />
             ))}
+            {loading && <Message data={{ from: "Bot", msg: "loading" }} />}
             <div ref={messagesEndRef}></div>
         </div>
     );
