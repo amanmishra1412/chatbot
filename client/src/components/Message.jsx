@@ -38,6 +38,15 @@ const Message = ({ data }) => {
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
                             rehypePlugins={[rehypeHighlight]}
+                            components={{
+                                pre({ children }) {
+                                    return (
+                                        <pre className="max-h-96 overflow-auto rounded-lg bg-zinc-900 p-4">
+                                            {children}
+                                        </pre>
+                                    );
+                                },
+                            }}
                         >
                             {data.msg}
                         </ReactMarkdown>
