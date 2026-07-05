@@ -24,8 +24,8 @@ const getGroqChatCompletion = async (msg) => {
 };
 
 const getGeminiChatCompletion = async (msg) => {
-    const response = await gemini.models.generateContent({
-        model: "gemini-2.5-flash",
+    const response = await gemini.interactions.create({
+        model: "gemini-3.5-flash",
         contents: msg,
     });
 
