@@ -9,17 +9,24 @@ const ChatContext = ({ children }) => {
 
     const [loading, setLoading] = useState(false);
 
+    const [provider, setProvider] = useState("groq");
+
     return (
         <ChatProvider.Provider
-            value={{ message, setMessage, loading, setLoading }}
+            value={{
+                message,
+                setMessage,
+                loading,
+                setLoading,
+                provider,
+                setProvider,
+            }}
         >
-            <div>{children}</div>
+            {children}
         </ChatProvider.Provider>
     );
 };
 
 export default ChatContext;
 
-export const useChat = () => {
-    return useContext(ChatProvider);
-};
+export const useChat = () => useContext(ChatProvider);

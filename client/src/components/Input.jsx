@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { useChat } from "../context/ChatContext";
 
 const Input = () => {
-    const { message, setMessage, loading, setLoading } = useChat();
+    const { message, setMessage, loading, setLoading, provider } = useChat();
 
     const [userData, setUserData] = useState("");
     const inputRef = useRef(null);
@@ -22,7 +22,10 @@ const Input = () => {
         try {
             const res = await axios.post(
                 `${import.meta.env.VITE_API_URL}/chat`,
-                { message: userData },
+                {
+                    message: userData,
+                    provider,
+                },
             );
 
             setMessage((prev) => [
