@@ -29,7 +29,7 @@ const getGeminiChatCompletion = async (msg) => {
         input: msg,
     });
 
-    return response.text;
+    return response.output_text;
 };
 
 module.exports = {
